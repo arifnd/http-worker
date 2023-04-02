@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 import cloudscraper
-import random
 import os
 
 app = Flask(__name__)
