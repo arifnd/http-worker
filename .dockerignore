@@ -1,0 +1,14 @@
+# Ignore build artifacts
+build/
+*.pyc
+*.pyo
+
+# Ignore editor files
+.vscode/
+*.swp
+*.swo
+
+# Ignore local dependencies and cache
+__pycache__/
+venv/
+*.egg-info/
