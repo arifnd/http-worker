@@ -8,6 +8,9 @@ app = Flask(__name__)
 # List of allowed IP addresses
 ALLOWED_IPS = os.getenv('ALLOWED_IPS')
 
+# Get debug mode
+DEBUG = os.getenv('DEBUG', True)
+
 # Get the secret key from the environment variable
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -15,8 +18,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 @app.before_request
 def check_ip():
     allowed_ips = ALLOWED_IPS.split(",")
-    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr)
-    if client_ip not in allowed_ips:
+    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(",")
+    app.logger.info('visitor IP %s', client_ip)
+    if client_ip[0] not in allowed_ips:
         return jsonify({'error': 'Forbidden'}), 403
 
 # Middleware to check the secret key
@@ -49,4 +53,4 @@ def handle_request():
 
 if __name__ == '__main__':
     # Start the server
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=DEBUG, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
