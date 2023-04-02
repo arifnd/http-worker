@@ -1,5 +1,5 @@
 # Use the official Python image as the parent image
-FROM python:3.9
+FROM python:3.9-slim
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8080
 
 # Start the application
-CMD ["python", "app.py"]
+CMD ["gunicorn", "--bind", ":8080", "--workers", "2", "app:app"]
